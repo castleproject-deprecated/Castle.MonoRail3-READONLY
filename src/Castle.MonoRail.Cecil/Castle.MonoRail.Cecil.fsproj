@@ -50,7 +50,7 @@
     <None Include="Script2.fsx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Castle.MonoRail\Castle.MonoRail.csproj">
+    <ProjectReference Include="..\Castle.MonoRail\Castle.MonoRail.csproj">
       <Name>Castle.MonoRail</Name>
       <Project>{09ad1180-de8b-419f-81d7-b76e1747df99}</Project>
       <Private>True</Private>

@@ -101,7 +101,7 @@
       <Project>{753DE9FA-DDEE-4B9F-91DD-080B5E19AD23}</Project>
       <Name>Castle.MonoRail.WindsorIntegration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Library1\Castle.MonoRail.Cecil.fsproj">
+    <ProjectReference Include="..\Castle.MonoRail.Cecil\Castle.MonoRail.Cecil.fsproj">
       <Project>{8F71B4BC-F966-4508-B5EF-CD36D1497B36}</Project>
       <Name>Castle.MonoRail.Cecil</Name>
     </ProjectReference>
