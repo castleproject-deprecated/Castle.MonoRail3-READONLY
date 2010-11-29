@@ -68,6 +68,25 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\Home20Controller.cs" />
+    <Compile Include="Controller\Home19Controller.cs" />
+    <Compile Include="Controller\Home18Controller.cs" />
+    <Compile Include="Controller\Home17Controller.cs" />
+    <Compile Include="Controller\Home16Controller.cs" />
+    <Compile Include="Controller\Home15Controller.cs" />
+    <Compile Include="Controller\Home14Controller.cs" />
+    <Compile Include="Controller\Home13Controller.cs" />
+    <Compile Include="Controller\Home12Controller.cs" />
+    <Compile Include="Controller\Home11Controller.cs" />
+    <Compile Include="Controller\Home10Controller.cs" />
+    <Compile Include="Controller\Home9Controller.cs" />
+    <Compile Include="Controller\Home8Controller.cs" />
+    <Compile Include="Controller\Home7Controller.cs" />
+    <Compile Include="Controller\Home6Controller.cs" />
+    <Compile Include="Controller\Home5Controller.cs" />
+    <Compile Include="Controller\Home4Controller.cs" />
+    <Compile Include="Controller\Home3Controller.cs" />
+    <Compile Include="Controller\Home2Controller.cs" />
     <Compile Include="Controller\HomeController.cs" />
     <Compile Include="Controller\IssueController.cs" />
     <Compile Include="Controller\IssuesController.cs" />
@@ -81,6 +100,10 @@
     <ProjectReference Include="..\..\extensions\WindsorIntegration\src\Castle.MonoRail.WindsorIntegration\Castle.MonoRail.WindsorIntegration.csproj">
       <Project>{753DE9FA-DDEE-4B9F-91DD-080B5E19AD23}</Project>
       <Name>Castle.MonoRail.WindsorIntegration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library1\Castle.MonoRail.Cecil.fsproj">
+      <Project>{8F71B4BC-F966-4508-B5EF-CD36D1497B36}</Project>
+      <Name>Castle.MonoRail.Cecil</Name>
     </ProjectReference>
     <ProjectReference Include="..\Castle.MonoRail\Castle.MonoRail.csproj">
       <Project>{09AD1180-DE8B-419F-81D7-B76E1747DF99}</Project>

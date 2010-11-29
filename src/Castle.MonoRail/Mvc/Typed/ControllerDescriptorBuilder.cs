@@ -20,12 +20,12 @@ namespace Castle.MonoRail.Mvc.Typed
 	using System.ComponentModel.Composition;
 	using System.Reflection;
 
-	[Export]
-	[PartCreationPolicy(CreationPolicy.Shared)]
-	public class ControllerDescriptorBuilder
+	// [Export]
+	// [PartCreationPolicy(CreationPolicy.Shared)]
+	public abstract class ControllerDescriptorBuilder
 	{
 		//TODO: needs caching (per instance)
-		public ControllerDescriptor Build(Type controllerType)
+		public virtual ControllerDescriptor Build(Type controllerType)
 		{
 			string name = controllerType.Name;
 			

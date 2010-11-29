@@ -22,24 +22,24 @@ namespace Castle.MonoRail.Tests.Mvc.Typed
 	[TestFixture]
 	public class ControllerDescriptorBuilderTestCase
 	{
-		[Test]
-		public void Build_should_inspect_controller_type_to_collect_and_normalize_name()
-		{
-			var builder = new ControllerDescriptorBuilder();
-
-			var descriptor = builder.Build(typeof (SomeTestController));
-
-			Assert.AreEqual("sometest", descriptor.Name);
-		}
-
-		[Test]
-		public void Build_should_inspect_controller_type_to_collect_actions()
-		{
-			var builder = new ControllerDescriptorBuilder();
-
-			var descriptor = builder.Build(typeof(SomeTestController));
-
-			Assert.IsTrue(descriptor.Actions.Any(a => a.Name == "Index"));
-		}
+//		[Test]
+//		public void Build_should_inspect_controller_type_to_collect_and_normalize_name()
+//		{
+//			var builder = new ControllerDescriptorBuilder();
+//
+//			var descriptor = builder.Build(typeof (SomeTestController));
+//
+//			Assert.AreEqual("sometest", descriptor.Name);
+//		}
+//
+//		[Test]
+//		public void Build_should_inspect_controller_type_to_collect_actions()
+//		{
+//			var builder = new ControllerDescriptorBuilder();
+//
+//			var descriptor = builder.Build(typeof(SomeTestController));
+//
+//			Assert.IsTrue(descriptor.Actions.Any(a => a.Name == "Index"));
+//		}
 	}
 }

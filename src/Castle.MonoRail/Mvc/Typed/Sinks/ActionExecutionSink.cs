@@ -27,10 +27,10 @@ namespace Castle.MonoRail.Mvc.Typed
 	{
 		public ActionExecutionSink()
 		{
-			DataBinder = new DataBinder();
+			// DataBinder = new DataBinder();
 		}
 
-		protected DataBinder DataBinder { get; set; }
+		// protected DataBinder DataBinder { get; set; }
 
 		public override void Invoke(ControllerExecutionContext executionCtx)
 		{

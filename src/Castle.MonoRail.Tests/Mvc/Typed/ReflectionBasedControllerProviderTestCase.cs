@@ -25,24 +25,24 @@ namespace Castle.MonoRail.Tests.Mvc.Typed
 	[TestFixture]
 	public class ReflectionBasedControllerProviderTestCase
 	{
-		[Test]
-		public void Create_should_create_requested_controller_instance()
-		{
-			var hosting = new Mock<IHostingBridge>();
-			var data = new RouteData();
-			data.Values.Add("controller", "sometest");
-
-			hosting.SetupGet(bridge => bridge.ReferencedAssemblies).Returns(new[] {GetType().Assembly});
-
-			var provider = new ReflectionBasedControllerProvider(hosting.Object)
-			               	{
-			               		DescriptorBuilder = new ControllerDescriptorBuilder()
-			               	};
-
-			var meta = provider.Create(data);
-
-			Assert.IsNotNull(meta);
-			Assert.IsInstanceOf<SomeTestController>(meta.ControllerInstance);
-		}
+//		[Test]
+//		public void Create_should_create_requested_controller_instance()
+//		{
+//			var hosting = new Mock<IHostingBridge>();
+//			var data = new RouteData();
+//			data.Values.Add("controller", "sometest");
+//
+//			hosting.SetupGet(bridge => bridge.ReferencedAssemblies).Returns(new[] {GetType().Assembly});
+//
+//			var provider = new ReflectionBasedControllerProvider(hosting.Object)
+//			               	{
+//			               		DescriptorBuilder = new ControllerDescriptorBuilder()
+//			               	};
+//
+//			var meta = provider.Create(data);
+//
+//			Assert.IsNotNull(meta);
+//			Assert.IsInstanceOf<SomeTestController>(meta.ControllerInstance);
+//		}
 	}
 }
