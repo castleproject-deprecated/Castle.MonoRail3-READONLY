@@ -45,7 +45,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MONO28-Debug|AnyCPU'">
     <OutputPath>..\..\build\NET40\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Cecil, Version=0.9.4.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Mono.Cecil.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\..\lib\Moq.dll</HintPath>
     </Reference>
@@ -71,6 +78,7 @@
     <Compile Include="Mvc\Typed\ActionExecutionSinkTestCase.cs" />
     <Compile Include="Mvc\Typed\ActionResolutionSinkTestCase.cs" />
     <Compile Include="Mvc\Typed\ActionResultExecutionSinkTestCase.cs" />
+    <Compile Include="Mvc\Typed\CecilBasedControllerDescriptorBuilderTestCase.cs" />
     <Compile Include="Mvc\Typed\ControllerDescriptorBuilderTestCase.cs" />
     <Compile Include="Mvc\Typed\Fakes\SomeTestController.cs" />
     <Compile Include="Mvc\Typed\Fakes\TestActionDescriptor.cs" />
@@ -82,6 +90,10 @@
     <Compile Include="StringResultTestCase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Castle.MonoRail.Cecil\Castle.MonoRail.Cecil.fsproj">
+      <Project>{8F71B4BC-F966-4508-B5EF-CD36D1497B36}</Project>
+      <Name>Castle.MonoRail.Cecil</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Castle.MonoRail\Castle.MonoRail.csproj">
       <Project>{09AD1180-DE8B-419F-81D7-B76E1747DF99}</Project>
       <Name>Castle.MonoRail</Name>

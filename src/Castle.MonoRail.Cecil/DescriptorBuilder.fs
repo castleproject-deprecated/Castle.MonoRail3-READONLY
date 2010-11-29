@@ -29,16 +29,19 @@ module CecilReflectionMod =
                             Seq.find (fun m -> m.MetadataToken = action.MetadataToken.ToInt32()) 
 
             let target = Expression.Parameter (typeof<obj>, "target")
-            let args = Expression.Parameter( typeof<obj[]>, "args")
-                
-            let mutable expParams = List.empty<Expression>
-            let mutable index = 0
+            let args = Expression.Parameter (typeof<obj[]>, "args")
+            
+            let rec buildConversionExpressions index = 
+                if action.Parameters.Count = index then
+                    List.empty<Expression>
+                else
+                    let p = action.Parameters.Item(index)
+                    let argAccess = Expression.ArrayAccess (args, Expression.Constant index)
+                    let exp = Expression.Convert (argAccess, resolveRefType (p.ParameterType.Resolve()))
+                    let list = (buildConversionExpressions (index + 1))
+                    list |> List.append [exp]
 
-            for p in action.Parameters do
-                let argAccess = Expression.ArrayAccess (args, Expression.Constant index)
-                index <- index + 1
-                let exp = Expression.Convert (argAccess, resolveRefType (p.ParameterType.Resolve()))
-                expParams <- expParams |> List.append [exp]
+            let expParams = buildConversionExpressions 0
 
             let convExp = Expression.Convert(target, controllerType)
             let call = Expression.Call(convExp, refMethod, List.toArray(expParams))
@@ -84,88 +87,92 @@ module CecilReflectionMod =
         ) 
         dict
 
-    type CecilBasedActionDescriptor = 
+    type CecilBasedActionDescriptor() = 
         class
-            inherit ActionDescriptor
+            inherit ActionDescriptor()
         
-            private new() = {}
-
-            new(func:System.Func<obj, obj[], obj>, name:string, parameters:seq<ParameterDescriptor>) = 
-                base.Name <- name
-                base.Action <- func
-                base.Parameters <- Seq.toArray(parameters)
-                new CecilBasedActionDescriptor()
+            new (func:System.Func<obj, obj[], obj>, name:string, parameters:seq<ParameterDescriptor>)  = 
+                    base.Name <- name
+                    base.Action <- func
+                    base.Parameters <- Seq.toArray(parameters)
+                    new CecilBasedActionDescriptor()
         end
 
 
     [<Export(typeof<ControllerDescriptorBuilder>)>]
     [<PartCreationPolicy(CreationPolicy.Shared)>]
-    type ControllerDescriptorBuilder1 = class 
+    type CecilBasedControllerDescriptorBuilder = 
+        class 
 
-        val asm2AsmRef : ConcurrentDictionary<Assembly, ModuleDefinition>
+            val asm2AsmRef : ConcurrentDictionary<Assembly, ModuleDefinition>
 
-        inherit ControllerDescriptorBuilder 
+            inherit ControllerDescriptorBuilder 
         
-        // parameterless constructor needs to be added explictly
-        new() = 
-            { 
-                asm2AsmRef = new ConcurrentDictionary<Assembly, ModuleDefinition>() 
-            }
+            // parameterless constructor needs to be added explictly
+            new() = 
+                { 
+                    asm2AsmRef = new ConcurrentDictionary<Assembly, ModuleDefinition>() 
+                }
 
-        // public virtual ControllerDescriptor Build(Type controllerType)
-        override x.Build(controllerType) = 
-            let name = correctControllerName(controllerType.Name)
+            // public virtual ControllerDescriptor Build(Type controllerType)
+            override x.Build(controllerType) = 
+                let name = correctControllerName(controllerType.Name).ToLower()
 
-            let desc = new ControllerDescriptor(controllerType, name, null)
-            let asm = controllerType.Assembly
-            let assemblyDef = AssemblyDefinition.ReadAssembly(asm.Location)
+                let desc = new ControllerDescriptor(controllerType, name, null)
+                let asm = controllerType.Assembly
 
-            let allTypes : seq<TypeDefinition> = 
-                assemblyDef.Modules |> 
-                Seq.map (fun m -> seq<TypeDefinition>(m.Types)) |> 
-                Seq.concat
+                let assemblyDef = AssemblyDefinition.ReadAssembly(asm.Location)
 
-            // should be cached per assembly instance
-            let mydict = buildMap (allTypes) (fun i -> 
-                match i with 
-                | ValidType(i) -> Some(i.FullName)
-                | _ -> None) (fun i -> i)
+                let allTypes : seq<TypeDefinition> = 
+                    assemblyDef.Modules |> 
+                    Seq.map (fun m -> seq<TypeDefinition>(m.Types)) |> 
+                    Seq.concat // |>
+                    // shall we get nested types? help test cases
+                    // Seq.map (fun t -> seq<TypeDefinition>(t.NestedTypes)) |> 
+                    // Seq.concat
 
-            let res, controllerTypeDef = mydict.TryGetValue controllerType.FullName
+                // should be cached per assembly instance
+                let mydict = buildMap (allTypes) (fun i -> 
+                    match i with 
+                    | ValidType(i) -> Some(i.FullName)
+                    | _ -> None) (fun i -> i)
 
-            if not res then failwith (fmt ("Could not find TypeReference for controller {0}", [name]))
+                let res, controllerTypeDef = mydict.TryGetValue controllerType.FullName
 
-            let actions = seq<MethodDefinition>(controllerTypeDef.Methods) |> 
-                          Seq.filter (fun m -> m.IsPublic && m.IsSpecialName = false && m.IsStatic = false) |>
-                          Seq.toArray
+                if not res then 
+                    failwith (fmt ("Could not find TypeReference for controller {0}", [controllerType.FullName]))
 
-            // side effecty (calls Add on collection)
-            let rec buildActionDescriptors i = 
-                if actions.Length = i then
-                    ()
-                else
-                    let act = actions.[i]
-                    let x = lazyActionFunc.Value (act, controllerType)
-                    let func = x(System.Runtime.CompilerServices.DebugInfoGenerator.CreatePdbGenerator())
+                let actions = seq<MethodDefinition>(controllerTypeDef.Methods) |> 
+                              Seq.filter (fun m -> m.IsPublic && m.IsSpecialName = false && m.IsStatic = false) |>
+                              Seq.toArray
 
-                    let rec recbuildParamDescriptor index  = 
-                        if act.Parameters.Count = index then
-                            []
-                        else 
-                            let param = act.Parameters.Item(index)
-                            let paramType = resolveRefType (param.ParameterType.Resolve())
-                            let paramDesc = new ParameterDescriptor(param.Name, paramType)
-                            recbuildParamDescriptor(index + 1) |> List.append [paramDesc] 
+                // side effecty (calls Add on collection)
+                let rec buildActionDescriptors i = 
+                    if actions.Length = i then
+                        ()
+                    else
+                        let act = actions.[i]
+                        let x = lazyActionFunc.Value (act, controllerType)
+                        let func = x(System.Runtime.CompilerServices.DebugInfoGenerator.CreatePdbGenerator())
+
+                        let rec recbuildParamDescriptor index  = 
+                            if act.Parameters.Count = index then
+                                []
+                            else 
+                                let param = act.Parameters.Item(index)
+                                let paramType = resolveRefType (param.ParameterType.Resolve())
+                                let paramDesc = new ParameterDescriptor(param.Name, paramType)
+                                recbuildParamDescriptor(index + 1) |> List.append [paramDesc] 
                     
-                    let paramDefs = recbuildParamDescriptor 0
-                    let actionName = act.Name
-                    let actionDesc = new CecilBasedActionDescriptor(func, actionName, paramDefs)
-                    desc.Actions.Add actionDesc
-                    buildActionDescriptors(i + 1) 
-                    ()
+                        let paramDefs = recbuildParamDescriptor 0
+                        let actionName = act.Name
+                        let actionDesc = new CecilBasedActionDescriptor(func, actionName, paramDefs)
+                        desc.Actions.Add actionDesc
+                        buildActionDescriptors(i + 1) 
+                        ()
             
-            buildActionDescriptors 0
+                buildActionDescriptors 0
 
-            desc
-    end
+                desc
+        end
 

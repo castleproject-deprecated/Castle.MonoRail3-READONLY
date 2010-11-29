@@ -24,7 +24,6 @@ namespace Castle.MonoRail.Mvc.Typed
 	{
 		protected ActionDescriptor()
 		{
-			Parameters = new List<ParameterDescriptor>();
 		}
 
 		public string Name { get; protected set; }

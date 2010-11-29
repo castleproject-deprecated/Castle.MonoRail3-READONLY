@@ -20,5 +20,14 @@ namespace Castle.MonoRail.Tests.Mvc.Typed.Fakes
 		{
 			return new object();
 		}
+
+		public void VoidRetAction()
+		{
+		}
+
+		public object ActionWithArgs(int id, string key)
+		{
+			return null;
+		}
 	}
 }
