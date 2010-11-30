@@ -22,8 +22,8 @@ module CecilReflectionMod =
         assert (retType.MetadataToken = t.MetadataToken.ToInt32())
         retType
 
-    let lazyActionFunc = lazy(fun (action:MethodDefinition, controllerType:System.Type) ->
-            
+    let lazyActionFunc (action:MethodDefinition, controllerType:System.Type) : Lazy<System.Func<obj,obj[],obj>> = 
+        lazy
             let refMethods = controllerType.GetMethods(BindingFlags.Public ||| BindingFlags.Instance)
             let refMethod = refMethods 
                             |> Seq.find (fun m -> m.MetadataToken = action.MetadataToken.ToInt32()) 
@@ -54,8 +54,7 @@ module CecilReflectionMod =
 
             let lambda = Expression.Lambda<_>(body, target, args)
 
-            lambda.Compile
-        )
+            lambda.Compile()
 
     let (|ControllerName|Unamed|) (name : string) = 
         if name.EndsWith("Controller") then ControllerName else Unamed;
@@ -68,12 +67,18 @@ module CecilReflectionMod =
     let isValidType (typeref : TypeDefinition) = 
         not (typeref.IsAbstract || typeref.IsInterface || typeref.IsNotPublic)
 
-    type CecilBasedActionDescriptor(func: System.Func<obj, obj[], obj>, name: string, parameters: seq<ParameterDescriptor>) as this = 
+    type CecilBasedActionDescriptor(func: Lazy<System.Func<obj,obj[],obj>>, name: string, parameters: seq<ParameterDescriptor>) as this = 
         inherit ActionDescriptor()
+        let lazyFunc = func
         do
+            // this.lazyFunc <- func
             this.Name <- name
-            this.Action <- func
+            // this.Action <- func
             this.Parameters <- Seq.toArray(parameters)
+
+        // member c.R with get() = radius and set(inp) = radius <- inp 
+        override c.Action with get() = lazyFunc.Value 
+            
 
 
     [<Export(typeof<ControllerDescriptorBuilder>)>]
@@ -118,8 +123,7 @@ module CecilReflectionMod =
                     ()
                 else
                     let act = actions.[i]
-                    let x = lazyActionFunc.Value (act, controllerType)
-                    let func = x(System.Runtime.CompilerServices.DebugInfoGenerator.CreatePdbGenerator())
+                    let lazyActionFuncInstance = lazyActionFunc (act, controllerType)
 
                     let rec recbuildParamDescriptor index  = 
                         if act.Parameters.Count = index then
@@ -132,7 +136,7 @@ module CecilReflectionMod =
                     
                     let paramDefs = recbuildParamDescriptor 0
                     let actionName = act.Name
-                    let actionDesc = CecilBasedActionDescriptor(func, actionName, paramDefs)
+                    let actionDesc = CecilBasedActionDescriptor(lazyActionFuncInstance, actionName, paramDefs)
                     desc.Actions.Add actionDesc
                     buildActionDescriptors(i + 1) 
                     ()

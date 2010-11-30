@@ -30,7 +30,7 @@ namespace Castle.MonoRail.Mvc.Typed
 
 		public Expression<Func<bool>> Constraint { get; protected set; }
 
-		public Func<object, object[], object> Action { get; protected set; }
+		public virtual Func<object, object[], object> Action { get; protected set; }
 
 		public ICollection<ParameterDescriptor> Parameters { get; set; }
 
