@@ -34,6 +34,8 @@ namespace TestWebApp
 				Configure(t => t.Named(t.Implementation.Name.Substring(0, t.Implementation.Name.Length - "Controller".Length).ToLowerInvariant()).
 					LifeStyle.Transient));
 
+			RouteTable.Routes.Ignore("trace.axd");
+
 			RouteTable.Routes.Add(
 				new Route("{controller}/{action}/{id}",
 						  new RouteValueDictionary(new {controller = "home", action = "index", id = ""}),

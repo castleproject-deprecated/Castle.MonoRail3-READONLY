@@ -48,7 +48,11 @@
 				var args = CreateArgs();
 				var controller = container.Resolve<object>(controllerName, args);
 
+				var watch = new System.Diagnostics.Stopwatch();
+				watch.Restart();
 				var descriptor = DescriptorBuilder.Build(controller.GetType());
+				watch.Stop();
+				HttpContext.Current.Trace.Write("MonoRail", "DescriptorBuilder took: " + watch.Elapsed.TotalMilliseconds);
 
 				meta = new TypedControllerMeta(controller, descriptor);
 			}

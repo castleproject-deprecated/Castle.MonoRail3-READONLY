@@ -18,15 +18,21 @@ namespace Castle.MonoRail.Mvc.Typed
 {
 	using System;
 	using System.ComponentModel.Composition;
+	using System.Collections.Concurrent;
 	using System.Reflection;
 
 	// [Export]
 	// [PartCreationPolicy(CreationPolicy.Shared)]
-	public abstract class ControllerDescriptorBuilder
+	public class ControllerDescriptorBuilder
 	{
-		//TODO: needs caching (per instance)
+		private readonly ConcurrentDictionary<Type, ControllerDescriptor> _type2Descriptor = new ConcurrentDictionary<Type, ControllerDescriptor>();
+
 		public virtual ControllerDescriptor Build(Type controllerType)
 		{
+			ControllerDescriptor desc;
+			if (_type2Descriptor.TryGetValue(controllerType, out desc))
+				return desc;
+
 			string name = controllerType.Name;
 			
 			name = name.Substring(0, name.Length - "Controller".Length).ToLowerInvariant();
@@ -40,6 +46,8 @@ namespace Castle.MonoRail.Mvc.Typed
 				if (action != null)
 					controllerDesc.Actions.Add(action);
 			}
+
+			_type2Descriptor.TryAdd(controllerType, controllerDesc);
 
 			return controllerDesc;
 		}

@@ -16,6 +16,7 @@
 
 namespace Castle.MonoRail.Primitives
 {
+	using System;
 	using System.Web;
 	using Castle.MonoRail.Internal;
 
@@ -26,15 +27,26 @@ namespace Castle.MonoRail.Primitives
 		// non-disposables being added to container: fine no state changes
 		void IHttpHandler.ProcessRequest(HttpContext context)
 		{
-			var ctx = new HttpContextWrapper(context);
+			var watch = new System.Diagnostics.Stopwatch(); 
+			watch.Start();
 
-			var container = ContainerManager.CreateRequestContainer(ctx);
-			
-			container.HookOn(context);
+			try
+			{
+				var ctx = new HttpContextWrapper(context);
 
-			container.Compose(this);
+				var container = ContainerManager.CreateRequestContainer(ctx);
 
-			ProcessRequest(ctx);
+				container.HookOn(context);
+
+				container.Compose(this);
+
+				ProcessRequest(ctx);
+			}
+			finally
+			{
+				watch.Stop();
+				context.Trace.Write("MonoRail.Perf", "ComposableHandler.ProcessRequest took " + watch.ElapsedMilliseconds);
+			}
 		}
 
 		bool IHttpHandler.IsReusable

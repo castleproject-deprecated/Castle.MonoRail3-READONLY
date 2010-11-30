@@ -1,6 +1,4 @@
 ﻿
-#light
-
 namespace Castle.MonoRail.Mvc.Typed
 
 module CecilReflectionMod = 
@@ -18,6 +16,7 @@ module CecilReflectionMod =
     let resolveRefType (t:TypeDefinition) = 
         // this is weak as it relies on the load context
         // and ideally we should be agnostic about contexts
+        // really, this may become an issue once we support dynamic modules that depends on AssemblyResolve
         let retType = System.Type.GetType t.FullName
         assert (retType.MetadataToken = t.MetadataToken.ToInt32())
         retType
@@ -39,8 +38,6 @@ module CecilReflectionMod =
                     let argAccess = Expression.ArrayAccess (args, Expression.Constant index)
                     let exp = Expression.Convert (argAccess, resolveRefType (p.ParameterType.Resolve())) :> Expression
                     exp :: buildConversionExpressions (index + 1)
-                    // let list = (buildConversionExpressions (index + 1))
-                    // list |> List.append [exp]
 
             let expParams = buildConversionExpressions 0 |> Seq.toArray
 
@@ -67,47 +64,53 @@ module CecilReflectionMod =
     let isValidType (typeref : TypeDefinition) = 
         not (typeref.IsAbstract || typeref.IsInterface || typeref.IsNotPublic)
 
-    type CecilBasedActionDescriptor(func: Lazy<System.Func<obj,obj[],obj>>, name: string, parameters: seq<ParameterDescriptor>) as this = 
+    type CecilBasedActionDescriptor(func: Lazy<System.Func<obj,obj[],obj>>, name: string, parameters) as this = 
         inherit ActionDescriptor()
         let lazyFunc = func
         do
-            // this.lazyFunc <- func
             this.Name <- name
-            // this.Action <- func
-            this.Parameters <- Seq.toArray(parameters)
+            this.Parameters <- parameters
 
-        // member c.R with get() = radius and set(inp) = radius <- inp 
         override c.Action with get() = lazyFunc.Value 
-            
 
 
-    [<Export(typeof<ControllerDescriptorBuilder>)>]
-    [<PartCreationPolicy(CreationPolicy.Shared)>]
+    // [<Export(typeof<ControllerDescriptorBuilder>)>]
+    // [<PartCreationPolicy(CreationPolicy.Shared)>]
     type CecilBasedControllerDescriptorBuilder = 
-        val asm2AsmRef : ConcurrentDictionary<Assembly, ModuleDefinition>
-        new() = { asm2AsmRef = new ConcurrentDictionary<Assembly, ModuleDefinition>() }
+        val asm2AsmRef : ConcurrentDictionary<Assembly, IDictionary<string, TypeDefinition>>
+        new() = { asm2AsmRef = new ConcurrentDictionary<Assembly, IDictionary<string, TypeDefinition>>() }
         inherit ControllerDescriptorBuilder 
 
-        // public virtual ControllerDescriptor Build(Type controllerType)
         override x.Build controllerType = 
-            let name = correctControllerName(controllerType.Name).ToLower()
+            let name = correctControllerName(controllerType.Name).ToLowerInvariant()
 
             let desc = ControllerDescriptor(controllerType, name, null)
             let asm = controllerType.Assembly
 
-            let assemblyDef = AssemblyDefinition.ReadAssembly(asm.Location)
+            let typeName2TypeDef = 
+                let res, existingDict = x.asm2AsmRef.TryGetValue asm
+                
+                if not res then
+                    let assemblyDef = AssemblyDefinition.ReadAssembly(asm.Location)
 
-            let allTypes = 
-                assemblyDef.Modules |> Seq.collect (fun m -> m.Types)
+                    let allTypes = 
+                        assemblyDef.Modules |> Seq.collect (fun m -> m.Types)
 
-            // should be cached per assembly instance
-            let mydict = 
-                allTypes
-                |> Seq.filter isValidType
-                |> Seq.map (fun t -> t.FullName,t)
-                |> dict
+                    // should be cached per assembly instance
+                    let tmp = 
+                        allTypes
+                        |> Seq.filter isValidType
+                        |> Seq.map (fun t -> t.FullName,t)
+                        |> dict
 
-            let res, controllerTypeDef = mydict.TryGetValue controllerType.FullName
+                    // cache it
+                    ignore(x.asm2AsmRef.TryAdd(asm, tmp))
+                    tmp
+                else
+                    existingDict
+
+
+            let res, controllerTypeDef = typeName2TypeDef.TryGetValue controllerType.FullName
 
             if not res then 
                 failwithf "Could not find TypeReference for controller %s" controllerType.FullName
@@ -134,7 +137,7 @@ module CecilReflectionMod =
                             let paramDesc = ParameterDescriptor(param.Name, paramType)
                             recbuildParamDescriptor(index + 1) |> List.append [paramDesc] 
                     
-                    let paramDefs = recbuildParamDescriptor 0
+                    let paramDefs = recbuildParamDescriptor 0 |> Seq.toArray
                     let actionName = act.Name
                     let actionDesc = CecilBasedActionDescriptor(lazyActionFuncInstance, actionName, paramDefs)
                     desc.Actions.Add actionDesc

@@ -40,19 +40,35 @@ namespace Castle.MonoRail.Mvc
 
 		public virtual void Process(RouteData data, HttpContextBase context)
 		{
+			var watch = new System.Diagnostics.Stopwatch();
+			watch.Start();
+
 			ControllerMeta meta = InquiryProvidersForMetaController(data, context);
+
+			watch.Stop();
+			context.Trace.Write("MonoRail.Perf", "PipelineRunner.InquiryProvidersForMetaController took " + watch.ElapsedMilliseconds);
 
 			if (meta == null)
 				// how to improve the diagnostics story?
 				throw new HttpException(404, "Not found");
 
+			watch.Restart();
+
 			ControllerExecutor executor = GetExecutor(data, context, meta);
+
+			watch.Stop();
+			context.Trace.Write("MonoRail.Perf", "PipelineRunner.GetExecutor took " + watch.ElapsedMilliseconds);
 
 			if (executor == null)
 				// need better exception model
 				throw new HttpException(500, "Null executor ?!");
 
+			watch.Restart();
+			
 			executor.Process(context);
+
+			watch.Stop();
+			context.Trace.Write("MonoRail.Perf", "PipelineRunner.Process took " + watch.ElapsedMilliseconds);
 		}
 
 		private ControllerExecutor GetExecutor(RouteData data, HttpContextBase context, ControllerMeta meta)

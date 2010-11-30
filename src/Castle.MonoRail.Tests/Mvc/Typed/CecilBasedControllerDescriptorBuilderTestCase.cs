@@ -11,18 +11,17 @@
 		[Test]
 		public void Build_should_inspect_controller_type_to_collect_and_normalize_name()
 		{
-			var builder = new CecilReflectionMod.CecilBasedControllerDescriptorBuilder();
+			var builder = new CecilReflectionMod2.CecilBasedControllerDescriptorBuilder();
 
 			var descriptor = builder.Build(typeof (SomeTestController));
 
 			Assert.AreEqual("sometest", descriptor.Name);
 		}
 
-
 		[Test]
 		public void Build_should_inspect_controller_type_to_collect_actions()
 		{
-			var builder = new CecilReflectionMod.CecilBasedControllerDescriptorBuilder();
+			var builder = new CecilReflectionMod2.CecilBasedControllerDescriptorBuilder();
 
 			var descriptor = builder.Build(typeof(SomeTestController));
 
@@ -32,7 +31,7 @@
 		[Test]
 		public void Actions_should_reflect_parameters()
 		{
-			var builder = new CecilReflectionMod.CecilBasedControllerDescriptorBuilder();
+			var builder = new CecilReflectionMod2.CecilBasedControllerDescriptorBuilder();
 
 			var descriptor = builder.Build(typeof(SomeTestController));
 
@@ -52,7 +51,7 @@
 		[Test]
 		public void Delegate_is_invocable_for_void_return_actions()
 		{
-			var builder = new CecilReflectionMod.CecilBasedControllerDescriptorBuilder();
+			var builder = new CecilReflectionMod2.CecilBasedControllerDescriptorBuilder();
 
 			var descriptor = builder.Build(typeof(InvocableTestController));
 
@@ -71,7 +70,7 @@
 		[Test]
 		public void Delegate_is_invocable_for_nonvoid_return_actions()
 		{
-			var builder = new CecilReflectionMod.CecilBasedControllerDescriptorBuilder();
+			var builder = new CecilReflectionMod2.CecilBasedControllerDescriptorBuilder();
 
 			var descriptor = builder.Build(typeof(InvocableTestController));
 
@@ -90,8 +89,8 @@
 
 	public class InvocableTestController
 	{
-		public bool IndexCalled = false;
-		public bool ActionWithReturnCalled = false;
+		public bool IndexCalled;
+		public bool ActionWithReturnCalled;
 
 		public void Index()
 		{

@@ -21,7 +21,7 @@ namespace Castle.MonoRail
 	using System.Runtime.Serialization;
 
 	// this needs some more thought
-	[DataContract(IsReference = true, Name = "Resource")]
+	[DataContract(Name = "Resource")]
 	public class Resource<T> where T : class
 	{
 		private readonly List<ResourceRelation> _resourceRelations = new List<ResourceRelation>();
