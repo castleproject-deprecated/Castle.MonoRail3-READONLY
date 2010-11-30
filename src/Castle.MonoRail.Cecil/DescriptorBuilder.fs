@@ -65,25 +65,8 @@ module CecilReflectionMod =
         | ControllerName -> name.Substring(0, name.Length - 10)
         | _ -> name
 
-    let isValidType (typeref : TypeDefinition) = not (typeref.IsAbstract || typeref.IsInterface || typeref.IsNotPublic)
-
-    let (|ValidType|InvalidType|) (typeref : TypeDefinition) = 
-        if isValidType typeref 
-          then ValidType(typeref)
-          else InvalidType
-
-    // given a seq, builds a dictionary
-    let buildMap (input:seq<'a>) (k: 'a -> 'K option) (v: 'a -> 'V)  = 
-        let dict = new Dictionary<'K, 'V>()
-        input |> Seq.iter (fun item -> 
-            let kval = k item
-            let vval = v item
-            match kval with 
-            | Some(t) -> dict.[t] <- vval 
-            | _ -> ()
-        ) 
-        dict
-
+    let isValidType (typeref : TypeDefinition) = 
+        not (typeref.IsAbstract || typeref.IsInterface || typeref.IsNotPublic)
 
     type CecilBasedActionDescriptor(func: System.Func<obj, obj[], obj>, name: string, parameters: seq<ParameterDescriptor>) as this = 
         inherit ActionDescriptor()
