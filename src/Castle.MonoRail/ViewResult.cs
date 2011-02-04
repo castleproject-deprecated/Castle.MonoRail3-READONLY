@@ -21,11 +21,6 @@ namespace Castle.MonoRail
 	using Mvc.Typed;
 	using Mvc.ViewEngines;
 
-//    public class ViewResult<T> : ViewResult
-//    {
-//        
-//    }
-
 	public class ViewResult : ActionResult
 	{
 		public string ViewName { get; set; }
@@ -47,7 +42,7 @@ namespace Castle.MonoRail
 
 			var viewEngines = services.ViewEngines;
 			
-			var result = viewEngines.ResolveView(this.ViewName, this.Layout, new ViewResolutionContext(context));
+			var result = viewEngines.ResolveView(ViewName, Layout, new ViewResolutionContext(context));
 
 			if (result.Successful)
 			{
@@ -65,16 +60,15 @@ namespace Castle.MonoRail
 			}
 			else
 			{
-				throw new Exception("Could not find view " + this.ViewName +
-					". Searched at " + string.Join(", ", result.SearchedLocations));
+				throw new Exception("Could not find view " + ViewName + ". Searched at " + string.Join(", ", result.SearchedLocations));
 			}
 		}
 
         private void ApplyConventions(ActionResultContext context)
         {
-            if (this.ViewName == null)
+            if (ViewName == null)
             {
-                this.ViewName = context.ActionName;
+                ViewName = context.ActionName;
             }
         }
 	}

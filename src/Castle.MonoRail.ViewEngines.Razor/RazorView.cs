@@ -68,6 +68,7 @@ namespace Castle.MonoRail.ViewEngines.Razor
 			initPage.Context = viewContext.HttpContext;
 			initPage.DataContainer = viewContext.ControllerContext.Data;
 			initPage.SetData(viewContext.ControllerContext.Data.MainModel ?? viewContext.ControllerContext.Data);
+			initPage.ViewContext = viewContext;
 			//initPage.InitHelpers();
 
 			var webPageContext = new WebPageContext(viewContext.HttpContext, (WebPageBase) initPage, initPage.GetData());

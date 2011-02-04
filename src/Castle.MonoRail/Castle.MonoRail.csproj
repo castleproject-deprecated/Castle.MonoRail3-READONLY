@@ -97,6 +97,7 @@
     <Compile Include="Mvc\ViewEngines\CompositeViewEngine.cs" />
     <Compile Include="Mvc\ViewEngines\IView.cs" />
     <Compile Include="Mvc\ViewEngines\IViewEngine.cs" />
+    <Compile Include="Mvc\ViewEngines\ViewComponentRenderer.cs" />
     <Compile Include="Mvc\ViewEngines\ViewContext.cs" />
     <Compile Include="Mvc\ViewEngines\ViewEngineResult.cs" />
     <Compile Include="Mvc\ViewEngines\ViewResolutionContext.cs" />

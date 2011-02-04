@@ -40,7 +40,7 @@ namespace TestWebApp.Controller
 
 		public object Components(ControllerContext controllerContext)
 		{
-			controllerContext.Data.MainModel = new Issue { CreatedAt = DateTime.Now };
+			controllerContext.Data.MainModel = new Issue {CreatedAt = DateTime.Now};
 
 			return new ViewResult();
 		}

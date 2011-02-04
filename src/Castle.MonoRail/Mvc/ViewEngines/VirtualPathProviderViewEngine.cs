@@ -37,6 +37,7 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 		protected IEnumerable<string> LayoutLocationFormats { get; set; }
 		protected IEnumerable<string> PartialViewLocationFormats { get; set; }
 		protected IEnumerable<string> ViewLocationFormats { get; set; }
+		
 		// Shouldn't this support composition? IOW be an import..
 		protected VirtualPathProvider VirtualPathProvider { get; set; }
 

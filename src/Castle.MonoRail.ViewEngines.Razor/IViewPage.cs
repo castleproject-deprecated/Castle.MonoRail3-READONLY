@@ -18,6 +18,7 @@ namespace Castle.MonoRail.ViewEngines.Razor
 {
 	using System.Web;
 	using Mvc;
+	using Mvc.ViewEngines;
 
 	public interface IViewPage
 	{
@@ -32,5 +33,7 @@ namespace Castle.MonoRail.ViewEngines.Razor
 		HttpContextBase Context { set; }
 
 		DataContainer DataContainer { get; set; }
+
+		ViewContext ViewContext { get; set; }
 	}
 }

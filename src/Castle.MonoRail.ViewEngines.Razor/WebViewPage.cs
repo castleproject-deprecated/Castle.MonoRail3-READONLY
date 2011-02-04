@@ -20,12 +20,15 @@ namespace Castle.MonoRail.ViewEngines.Razor
 	using System.Web;
 	using System.Web.WebPages;
 	using Mvc;
+	using Mvc.ViewEngines;
 
 	public abstract class WebViewPage<TModel> : WebPageBase, IViewPage
 	{
 		public TModel Model { get; set; }
 
 		public DataContainer DataContainer { get; set; }
+
+		public ViewContext ViewContext { get; set; }
 
 		//On razor, the view is the parent of the layout.
 		protected override void ConfigurePage(WebPageBase parentPage)
