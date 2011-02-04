@@ -87,6 +87,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Views\Category\index.cshtml" />
+    <Content Include="Views\Home\components.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <None Include="Views\Shared\default.cshtml" />
     <None Include="Views\Home\view.cshtml" />
@@ -106,6 +107,8 @@
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Issue.cs" />
     <Compile Include="Resources\IssueResource.cs" />
+    <Compile Include="ViewComponents\BarComponent.cs" />
+    <Compile Include="ViewComponents\FooComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Castle.MonoRail.ViewEngines.Razor\Castle.MonoRail.ViewEngines.Razor.csproj">

@@ -60,7 +60,7 @@ namespace Castle.MonoRail.ViewEngines.Razor
 			{
 				throw new InvalidOperationException(string.Format(
 					CultureInfo.CurrentCulture,
-					"wrong base type for view: {0}", ViewPath));
+					"Wrong base type for view: {0}", ViewPath));
 			}
 
 			initPage.Layout = LayoutPath;

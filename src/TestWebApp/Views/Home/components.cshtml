@@ -1,0 +1,17 @@
+﻿<div class="container">
+    <h2>ViewComponent</h2>
+
+	<div>
+		<h4>Snippet</h4>
+		@ViewComponent("_simple")
+
+        <h4>Simple Typed</h4>
+        @(ViewComponent<TestWebApp.ViewComponents.FooComponent>())
+
+        <h4>With Data</h4>
+        @ViewComponent("_datacontainer", "Some data")
+
+        <h4>Typed With Data</h4>
+        @(ViewComponent<TestWebApp.ViewComponents.BarComponent>("Some data"))
+	</div>
+</div>

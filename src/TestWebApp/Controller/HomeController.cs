@@ -38,6 +38,13 @@ namespace TestWebApp.Controller
 			return new ViewResult("view");
 		}
 
+		public object Components(ControllerContext controllerContext)
+		{
+			controllerContext.Data.MainModel = new Issue { CreatedAt = DateTime.Now };
+
+			return new ViewResult();
+		}
+
 		public object About()
 		{
 			return new StringResult("Lyle Lanley");

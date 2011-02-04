@@ -17,6 +17,7 @@
 namespace Castle.MonoRail.ViewEngines.Razor
 {
 	using System;
+	using System.Web;
 	using System.Web.WebPages;
 	using Mvc;
 
@@ -47,6 +48,25 @@ namespace Castle.MonoRail.ViewEngines.Razor
 		{
 			return Model;
 		}
+
+        public HtmlString ViewComponent(string name)
+        {
+            return new HtmlString("");
+        }
+
+        public HtmlString ViewComponent(string name, object data)
+        {
+            return new HtmlString("");
+        }
+
+        public HtmlString ViewComponent<T>()
+        {
+            return new HtmlString("");
+        }
+        public HtmlString ViewComponent<T>(object data)
+        {
+            return new HtmlString("");
+        }
 	}
 
 	public abstract class WebViewPage : WebViewPage<dynamic>
