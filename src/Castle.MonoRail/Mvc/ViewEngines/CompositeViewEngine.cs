@@ -46,6 +46,23 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 			return new ViewEngineResult(failedResults.SelectMany(res => res.SearchedLocations));
 		}
 
+		public ViewEngineResult ResolveViewComponent(string viewName, ViewResolutionContext resolutionContext)
+		{
+			var failedResults = new List<ViewEngineResult>();
+
+			foreach (var viewEngine in ViewEngines)
+			{
+				var result = viewEngine.ResolveViewComponent(viewName, resolutionContext);
+
+				if (result.Successful)
+					return result;
+				else
+					failedResults.Add(result);
+			}
+
+			return new ViewEngineResult(failedResults.SelectMany(res => res.SearchedLocations));
+		}
+
 		public void Release(IView view)
 		{
 			// should not be invoked on the composite

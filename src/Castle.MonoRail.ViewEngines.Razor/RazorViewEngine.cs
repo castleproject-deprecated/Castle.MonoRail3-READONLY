@@ -61,6 +61,11 @@ namespace Castle.MonoRail.ViewEngines.Razor
 			return new RazorView(HostingBridge, viewPath, layoutPath, Renderer);
 		}
 
+		protected override IViewComponent CreateViewComponent(string viewPath)
+		{
+			return new RazorViewComponent(HostingBridge, viewPath, Renderer);
+		}
+
 		protected override bool FileExists(string path)
 		{
 			return HostingBridge.FileExists(path);

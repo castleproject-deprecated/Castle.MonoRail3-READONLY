@@ -23,14 +23,15 @@ namespace Castle.MonoRail.ViewEngines.Razor
 	using Internal;
 	using Mvc.ViewEngines;
 
-	public class RazorViewComponent : IViewComponent
+	public class RazorView : IView
 	{
 		private readonly ViewComponentRenderer renderer;
 
-		public RazorViewComponent(IHostingBridge hostingBridge, string view, ViewComponentRenderer renderer)
+		public RazorView(IHostingBridge hostingBridge, string view, string layout, ViewComponentRenderer renderer)
 		{
 			this.renderer = renderer;
 			ViewPath = view;
+			LayoutPath = layout;
 			HostingBridge = hostingBridge;
 		}
 
@@ -47,7 +48,7 @@ namespace Castle.MonoRail.ViewEngines.Razor
 			return Activator.CreateInstance(compiledType);
 		}
 
-		public void Process(ViewContext viewContext, TextWriter writer, object model)
+		public void Process(ViewContext viewContext, TextWriter writer)
 		{
 			object view = CreateViewInstance();
 			if (view == null)
@@ -65,10 +66,11 @@ namespace Castle.MonoRail.ViewEngines.Razor
 					"Wrong base type for view: {0}", ViewPath));
 			}
 
+			initPage.Layout = LayoutPath;
 			initPage.VirtualPath = ViewPath;
 			initPage.Context = viewContext.HttpContext;
 			initPage.DataContainer = viewContext.ControllerContext.Data;
-			initPage.SetData(model ?? (viewContext.ControllerContext.Data.MainModel ?? viewContext.ControllerContext.Data));
+			initPage.SetData(viewContext.ControllerContext.Data.MainModel ?? viewContext.ControllerContext.Data);
 			initPage.ViewContext = viewContext;
 			initPage.Renderer = renderer;
 			//initPage.InitHelpers();

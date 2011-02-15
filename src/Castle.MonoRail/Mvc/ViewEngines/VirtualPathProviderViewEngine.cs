@@ -60,6 +60,22 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 			return new ViewEngineResult(CreateView(viewPath, layoutPath), this);
 		}
 
+		public ViewEngineResult ResolveViewComponent(string viewName, ViewResolutionContext resolutionContext)
+		{
+			string[] viewLocationsSearched;
+
+			string areaName = resolutionContext.AreaName;
+			string controllerName = resolutionContext.ControllerName;
+			string viewPath = GetPath(ViewLocationFormats, AreaViewLocationFormats, "ViewLocationFormats", viewName, controllerName, areaName, out viewLocationsSearched);
+
+			if (String.IsNullOrEmpty(viewPath))
+			{
+				return new ViewEngineResult(viewLocationsSearched);
+			}
+
+			return new ViewEngineResult(CreateViewComponent(viewPath), this);
+		}
+
 		public void Release(IView view)
 		{
 			if (view is IDisposable)
@@ -76,6 +92,8 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 		}
 
 		protected abstract IView CreateView(string viewPath, string layoutPath);
+
+		protected abstract IViewComponent CreateViewComponent(string viewPath);
 
 		protected virtual bool FileExists(string path)
 		{

@@ -11,11 +11,11 @@
 		[Import]
 		public IMonoRailServices Services { get; set; }
 
-		public string Render(string componentView, ViewContext viewContext)
+		public string Render(string componentView, ViewContext viewContext, object model)
 		{
 			var viewEngines = Services.ViewEngines;
 
-			var result = viewEngines.ResolveView(componentView, null, new ViewResolutionContext(viewContext.ActionContext));
+			var result = viewEngines.ResolveViewComponent(componentView, new ViewResolutionContext(viewContext.ActionContext));
 
 			if (result.Successful)
 			{
@@ -23,7 +23,7 @@
 				{
 					using (var writer = new StringWriter())
 					{
-						result.View.Process(viewContext, writer);
+						result.ViewComponent.Process(viewContext, writer, model);
 
 						return writer.ToString();
 					}

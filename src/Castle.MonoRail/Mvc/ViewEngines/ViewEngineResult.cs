@@ -32,10 +32,18 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 			Successful = true;
 		}
 
+		public ViewEngineResult(IViewComponent viewComponent, IViewEngine viewEngine)
+		{
+			ViewComponent = viewComponent;
+			ViewEngine = viewEngine;
+			Successful = true;
+		}
+
 		public bool Successful { get; private set; }
 
 		public IEnumerable<string> SearchedLocations { get; set; }
-		
+
+		public IViewComponent ViewComponent { get; set; }
 		public IViewEngine ViewEngine { get; private set; }
 		
 		public IView View { get; private set; }

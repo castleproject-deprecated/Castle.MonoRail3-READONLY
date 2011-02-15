@@ -65,6 +65,11 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 			return new WebFormView(this.WebFormFactory, viewPath, layoutPath);
 		}
 
+		protected override IViewComponent CreateViewComponent(string viewPath)
+		{
+			return null;
+		}
+
 		protected override bool FileExists(string path)
 		{
 			return HostingBridge.FileExists(path);

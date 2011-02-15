@@ -20,6 +20,8 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 	{
 		ViewEngineResult ResolveView(string viewName, string layout, ViewResolutionContext resolutionContext);
 
+		ViewEngineResult ResolveViewComponent(string viewName, ViewResolutionContext resolutionContext);
+
 		void Release(IView view);
 	}
 }
