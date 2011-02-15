@@ -18,19 +18,23 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 {
 	using System.IO;
 	using System.Web;
+	using Typed;
 
 	public class ViewContext
 	{
-		public ViewContext(HttpContextBase httpContext, TextWriter writer, ControllerContext controllerContext)
+		public ViewContext(HttpContextBase httpContext, TextWriter writer, ControllerContext controllerContext, ActionResultContext context)
 		{
 			HttpContext = httpContext;
 			Writer = writer;
 			ControllerContext = controllerContext;
+			ActionContext = context;
 		}
 
 		public TextWriter Writer { get; private set; }
 
 		public ControllerContext ControllerContext { get; private set; }
+
+		public ActionResultContext ActionContext { get; set; }
 
 		public HttpContextBase HttpContext { get; private set; }
 	}

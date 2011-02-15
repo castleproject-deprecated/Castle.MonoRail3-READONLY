@@ -49,7 +49,7 @@ namespace Castle.MonoRail
 				try
 				{
 					var httpContext = context.HttpContext;
-					var viewContext = new ViewContext(httpContext, httpContext.Response.Output, controllerContext);
+					var viewContext = new ViewContext(httpContext, httpContext.Response.Output, controllerContext, context);
 
 					result.View.Process(viewContext, httpContext.Response.Output);
 				}

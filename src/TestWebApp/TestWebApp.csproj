@@ -88,6 +88,8 @@
     <Content Include="Global.asax" />
     <Content Include="Views\Category\index.cshtml" />
     <Content Include="Views\Home\components.cshtml" />
+    <Content Include="Views\Home\_simple.cshtml" />
+    <Content Include="Views\Home\_datacontainer.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <None Include="Views\Shared\default.cshtml" />
     <None Include="Views\Home\view.cshtml" />

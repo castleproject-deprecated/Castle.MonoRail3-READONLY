@@ -35,5 +35,7 @@ namespace Castle.MonoRail.ViewEngines.Razor
 		DataContainer DataContainer { get; set; }
 
 		ViewContext ViewContext { get; set; }
+
+		ViewComponentRenderer Renderer { get; set; }
 	}
 }

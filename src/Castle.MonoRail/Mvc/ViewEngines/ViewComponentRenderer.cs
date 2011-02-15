@@ -4,7 +4,8 @@
 	using System.ComponentModel.Composition;
 	using System.IO;
 
-	[Export]
+	[Export(typeof(ViewComponentRenderer))]
+	[PartCreationPolicy(CreationPolicy.Shared)]
 	public class ViewComponentRenderer
 	{
 		[Import]
@@ -14,7 +15,7 @@
 		{
 			var viewEngines = Services.ViewEngines;
 
-			var result = viewEngines.ResolveView(componentView, null, new ViewResolutionContext(null));
+			var result = viewEngines.ResolveView(componentView, null, new ViewResolutionContext(viewContext.ActionContext));
 
 			if (result.Successful)
 			{

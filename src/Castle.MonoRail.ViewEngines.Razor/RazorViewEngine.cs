@@ -29,6 +29,9 @@ namespace Castle.MonoRail.ViewEngines.Razor
 		[Import]
 		public IHostingBridge HostingBridge { get; set; }
 
+		[Import]
+		public ViewComponentRenderer Renderer { get; set; }
+
 		public RazorViewEngine()
 		{
 			AreaViewLocationFormats = new[] {
@@ -55,7 +58,7 @@ namespace Castle.MonoRail.ViewEngines.Razor
 
 		protected override IView CreateView(string viewPath, string layoutPath)
 		{
-			return new RazorView(HostingBridge, viewPath, layoutPath);
+			return new RazorView(HostingBridge, viewPath, layoutPath, Renderer);
 		}
 
 		protected override bool FileExists(string path)
