@@ -90,6 +90,7 @@
     <Content Include="Views\Home\components.cshtml" />
     <Content Include="Views\Home\_simple.cshtml" />
     <Content Include="Views\Home\_datacontainer.cshtml" />
+    <Content Include="Views\Components\Foo\default.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <None Include="Views\Shared\default.cshtml" />
     <None Include="Views\Home\view.cshtml" />

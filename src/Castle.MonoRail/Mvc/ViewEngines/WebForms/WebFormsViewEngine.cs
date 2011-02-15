@@ -56,6 +56,10 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 				"~/Areas/{2}/Views/Shared/{0}.ascx",
 			};
 
+			ViewComponentLocationFormats = new[] {
+				"~/Views/Components/{0}/default.ascx"
+			};
+
 			PartialViewLocationFormats = ViewLocationFormats;
 			AreaPartialViewLocationFormats = AreaViewLocationFormats;
 		}

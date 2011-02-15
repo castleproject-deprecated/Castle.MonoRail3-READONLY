@@ -37,6 +37,7 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 		protected IEnumerable<string> LayoutLocationFormats { get; set; }
 		protected IEnumerable<string> PartialViewLocationFormats { get; set; }
 		protected IEnumerable<string> ViewLocationFormats { get; set; }
+		protected IEnumerable<string> ViewComponentLocationFormats { get; set; }
 		
 		// Shouldn't this support composition? IOW be an import..
 		protected VirtualPathProvider VirtualPathProvider { get; set; }
@@ -66,7 +67,7 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 
 			string areaName = resolutionContext.AreaName;
 			string controllerName = resolutionContext.ControllerName;
-			string viewPath = GetPath(ViewLocationFormats, AreaViewLocationFormats, "ViewLocationFormats", viewName, controllerName, areaName, out viewLocationsSearched);
+			string viewPath = GetPath(ViewLocationFormats.Union(ViewComponentLocationFormats), AreaViewLocationFormats, "ViewLocationFormats", viewName, controllerName, areaName, out viewLocationsSearched);
 
 			if (String.IsNullOrEmpty(viewPath))
 			{

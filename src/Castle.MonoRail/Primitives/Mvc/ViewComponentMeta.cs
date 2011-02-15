@@ -16,10 +16,18 @@
 #endregion
 namespace Castle.MonoRail.Primitives.Mvc
 {
-	using System.Web.Routing;
+	using System.Collections.Generic;
 
-	public abstract class ControllerProvider
+	public class ViewComponentMeta
 	{
-		public abstract ControllerMeta Create(RouteData data);
+		public ViewComponentMeta(object component)
+		{
+			Metadata = new Dictionary<string, object>();
+			ComponentInstance = component;
+		}
+
+		public IDictionary<string, object> Metadata { get; set; }
+
+		public object ComponentInstance { get; set; }
 	}
 }

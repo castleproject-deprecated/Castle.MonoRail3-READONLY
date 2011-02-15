@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 //  Copyright 2004-2010 Castle Project - http://www.castleproject.org/
 //  
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,12 +14,23 @@
 //  limitations under the License.
 // 
 #endregion
-namespace Castle.MonoRail.Primitives.Mvc
+namespace Castle.MonoRail.Mvc.Typed
 {
-	using System.Web.Routing;
+	using System;
+	using System.ComponentModel.Composition;
+	using Primitives.Mvc;
 
-	public abstract class ControllerProvider
+	[Export(typeof(ViewComponentProvider))]
+	[ExportMetadata("Order", 10000)]
+	[PartCreationPolicy(CreationPolicy.Shared)]
+	public class ReflectionBasedViewComponentProvider : ViewComponentProvider
 	{
-		public abstract ControllerMeta Create(RouteData data);
+		public override ViewComponentMeta Create(Type type)
+		{
+			var component = Activator.CreateInstance(type);
+			var meta = new ViewComponentMeta(component);
+
+			return meta;
+		}
 	}
 }

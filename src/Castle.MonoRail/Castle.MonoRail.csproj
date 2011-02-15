@@ -92,6 +92,7 @@
     <Compile Include="Mvc\Typed\ActionResultContext.cs" />
     <Compile Include="Mvc\Typed\ControllerDescriptor.cs" />
     <Compile Include="Mvc\Typed\ControllerExecutionContext.cs" />
+    <Compile Include="Mvc\Typed\ReflectionBasedViewComponentProvider.cs" />
     <Compile Include="Mvc\Typed\DataBindAttribute.cs" />
     <Compile Include="Mvc\Typed\ParameterDescriptor.cs" />
     <Compile Include="Mvc\ViewEngines\CompositeViewEngine.cs" />
@@ -140,6 +141,8 @@
     <Compile Include="Primitives\Mvc\ControllerMeta.cs" />
     <Compile Include="Primitives\Mvc\ControllerProvider.cs" />
     <Compile Include="Mvc\IActionParameterBinder.cs" />
+    <Compile Include="Primitives\Mvc\ViewComponentMeta.cs" />
+    <Compile Include="Primitives\Mvc\ViewComponentProvider.cs" />
     <Compile Include="ResourceOfT.cs" />
     <Compile Include="ResourceRelation.cs" />
     <Compile Include="StringResult.cs" />
