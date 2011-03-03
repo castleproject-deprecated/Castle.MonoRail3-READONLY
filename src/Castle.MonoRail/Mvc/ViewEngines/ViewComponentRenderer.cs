@@ -3,6 +3,7 @@
 	using System;
 	using System.ComponentModel.Composition;
 	using System.IO;
+	using Microsoft.CSharp.RuntimeBinder;
 	using Primitives.Mvc;
 
 	[Export(typeof(ViewComponentRenderer))]
@@ -45,29 +46,41 @@
 
 		public string Render(Type component, ViewContext viewContext)
 		{
+			ViewResult result = null;
+
 			var viewEngines = Services.ViewEngines;
 
-			var result = viewEngines.ResolveViewComponent(component.Name.Replace("Component", ""), new ViewResolutionContext(viewContext.ActionContext));
+			dynamic instance = ComponentProvider.Create(component).ComponentInstance;
 
-			if (result.Successful)
+			result = instance.Render();
+
+			var viewName = component.Name.Replace("Component", "");
+			if (result != null)
+			{
+				viewName = result.ViewName;
+			}
+
+			var vcView = viewEngines.ResolveViewComponent(viewName, new ViewResolutionContext(viewContext.ActionContext));
+
+			if (vcView.Successful)
 			{
 				try
 				{
 					using (var writer = new StringWriter())
 					{
-						result.ViewComponent.Process(viewContext, writer, ComponentProvider.Create(component).ComponentInstance);
+						vcView.ViewComponent.Process(viewContext, writer, instance);
 
 						return writer.ToString();
 					}
 				}
 				finally
 				{
-					result.ViewEngine.Release(result.View);
+					vcView.ViewEngine.Release(vcView.View);
 				}
 			}
 			else
 			{
-				throw new Exception("Could not find view " + component.Name + ". Searched at " + string.Join(", ", result.SearchedLocations));
+				throw new Exception("Could not find view " + component.Name + ". Searched at " + string.Join(", ", vcView.SearchedLocations));
 			}
 		}
 	}
