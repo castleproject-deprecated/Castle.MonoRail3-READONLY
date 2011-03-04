@@ -65,9 +65,9 @@ namespace Castle.MonoRail.ViewEngines.Razor
 			return new RazorView(HostingBridge, viewPath, layoutPath, ViewComponentRenderer);
 		}
 
-		protected override IViewComponent CreateViewComponent(string viewPath)
+		protected override IPartialView CreateViewComponent(string viewPath)
 		{
-			return new RazorViewComponent(HostingBridge, viewPath, ViewComponentRenderer);
+			return new RazorPartialView(HostingBridge, viewPath, ViewComponentRenderer);
 		}
 
 		protected override bool FileExists(string path)

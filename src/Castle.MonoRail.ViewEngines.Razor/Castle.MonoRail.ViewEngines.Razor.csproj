@@ -84,10 +84,10 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AssemblyLevelSettings.cs" />
-    <Compile Include="RazorViewComponent.cs" />
+    <Compile Include="RazorView.cs" />
     <Compile Include="IViewPage.cs" />
     <Compile Include="MonoRailRazorHost.cs" />
-    <Compile Include="RazorView.cs" />
+    <Compile Include="RazorPartialView.cs" />
     <Compile Include="RazorViewEngine.cs" />
     <Compile Include="MonoRailRazorHostFactory.cs" />
     <Compile Include="WebViewPage.cs" />

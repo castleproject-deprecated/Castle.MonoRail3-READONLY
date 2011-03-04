@@ -32,9 +32,9 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 			Successful = true;
 		}
 
-		public ViewEngineResult(IViewComponent viewComponent, IViewEngine viewEngine)
+		public ViewEngineResult(IPartialView partialView, IViewEngine viewEngine)
 		{
-			ViewComponent = viewComponent;
+			PartialView = partialView;
 			ViewEngine = viewEngine;
 			Successful = true;
 		}
@@ -43,9 +43,10 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 
 		public IEnumerable<string> SearchedLocations { get; set; }
 
-		public IViewComponent ViewComponent { get; set; }
 		public IViewEngine ViewEngine { get; private set; }
 		
 		public IView View { get; private set; }
+
+		public IPartialView PartialView { get; private set; }
 	}
 }

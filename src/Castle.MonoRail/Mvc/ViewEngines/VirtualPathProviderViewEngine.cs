@@ -96,7 +96,7 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 
 		protected abstract IView CreateView(string viewPath, string layoutPath);
 
-		protected abstract IViewComponent CreateViewComponent(string viewPath);
+		protected abstract IPartialView CreateViewComponent(string viewPath);
 
 		protected virtual bool FileExists(string path)
 		{

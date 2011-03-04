@@ -69,7 +69,7 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 			return new WebFormView(this.WebFormFactory, viewPath, layoutPath);
 		}
 
-		protected override IViewComponent CreateViewComponent(string viewPath)
+		protected override IPartialView CreateViewComponent(string viewPath)
 		{
 			return null;
 		}

@@ -98,7 +98,7 @@
     <Compile Include="Mvc\Typed\ParameterDescriptor.cs" />
     <Compile Include="Mvc\ViewEngines\CompositeViewEngine.cs" />
     <Compile Include="Mvc\ViewEngines\IView.cs" />
-    <Compile Include="Mvc\ViewEngines\IViewComponent.cs" />
+    <Compile Include="Mvc\ViewEngines\IPartialView.cs" />
     <Compile Include="Mvc\ViewEngines\IViewEngine.cs" />
     <Compile Include="Mvc\ViewEngines\PartialResolutionContext.cs" />
     <Compile Include="Mvc\ViewEngines\ViewComponentRenderer.cs" />

@@ -33,7 +33,7 @@
 				{
 					using (var writer = new StringWriter())
 					{
-						result.ViewComponent.Process(viewContext, writer, Model);
+						result.PartialView.Process(viewContext, writer, Model);
 
 						return writer.ToString();
 					}
