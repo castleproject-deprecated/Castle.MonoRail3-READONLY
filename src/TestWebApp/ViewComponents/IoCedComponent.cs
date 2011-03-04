@@ -12,9 +12,9 @@
 			this.viewContext = viewContext;
 		}
 
-		public PartialResult Render()
+		public PartialViewResult Render()
 		{
-			return new PartialResult();
+			return new PartialViewResult();
 		}
 	}
 }

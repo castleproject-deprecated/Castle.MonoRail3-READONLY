@@ -10,9 +10,9 @@
 
 		public Func<BarComponent, HelperResult> Section { get; set; }
 
-		public PartialResult Render()
+		public PartialViewResult Render()
 		{
-			return new PartialResult();
+			return new PartialViewResult();
 		}
 	}
 }

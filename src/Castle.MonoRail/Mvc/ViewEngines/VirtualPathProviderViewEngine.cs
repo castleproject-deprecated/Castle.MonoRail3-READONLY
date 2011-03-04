@@ -61,13 +61,13 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 			return new ViewEngineResult(CreateView(viewPath, layoutPath), this);
 		}
 
-		public ViewEngineResult ResolvePartialView(string partialName, PartialResolutionContext resolutionContext)
+		public ViewEngineResult ResolvePartialView(string partialName, PartialViewResolutionContext partialViewResolutionCtx)
 		{
 			string[] viewLocationsSearched;
 
-			string areaName = resolutionContext.AreaName;
-			string directory = resolutionContext.Directory;
-			var locations = resolutionContext.LookupSharedAreas ? ViewComponentLocationFormats.Union(PartialViewLocationFormats) : ViewComponentLocationFormats;
+			string areaName = partialViewResolutionCtx.AreaName;
+			string directory = partialViewResolutionCtx.Directory;
+			var locations = partialViewResolutionCtx.LookupSharedAreas ? ViewComponentLocationFormats.Union(PartialViewLocationFormats) : ViewComponentLocationFormats;
 
 			string viewPath = GetPath(locations, AreaViewLocationFormats, "ViewLocationFormats", partialName, directory, areaName, out viewLocationsSearched);
 

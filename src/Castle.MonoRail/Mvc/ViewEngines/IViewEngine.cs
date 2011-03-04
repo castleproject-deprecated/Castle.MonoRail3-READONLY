@@ -20,7 +20,7 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 	{
 		ViewEngineResult ResolveView(string viewName, string layout, ViewResolutionContext resolutionContext);
 
-		ViewEngineResult ResolvePartialView(string partialName, PartialResolutionContext resolutionContext);
+		ViewEngineResult ResolvePartialView(string partialName, PartialViewResolutionContext partialViewResolutionCtx);
 
 		void Release(IView view);
 	}

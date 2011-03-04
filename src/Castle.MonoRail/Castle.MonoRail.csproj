@@ -100,7 +100,7 @@
     <Compile Include="Mvc\ViewEngines\IView.cs" />
     <Compile Include="Mvc\ViewEngines\IPartialView.cs" />
     <Compile Include="Mvc\ViewEngines\IViewEngine.cs" />
-    <Compile Include="Mvc\ViewEngines\PartialResolutionContext.cs" />
+    <Compile Include="Mvc\ViewEngines\PartialViewResolutionContext.cs" />
     <Compile Include="Mvc\ViewEngines\ViewComponentRenderer.cs" />
     <Compile Include="Mvc\ViewEngines\ViewContext.cs" />
     <Compile Include="Mvc\ViewEngines\ViewEngineResult.cs" />
@@ -147,7 +147,7 @@
     <Compile Include="ResourceOfT.cs" />
     <Compile Include="ResourceRelation.cs" />
     <Compile Include="StringResult.cs" />
-    <Compile Include="PartialResult.cs" />
+    <Compile Include="PartialViewResult.cs" />
     <Compile Include="ViewResult.cs" />
     <Compile Include="WebForms\ViewPage.cs">
       <SubType>ASPXCodeBehind</SubType>

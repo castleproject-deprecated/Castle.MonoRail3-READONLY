@@ -18,7 +18,7 @@
 
 		public string Render(string componentView, ViewContext viewContext, object model = null)
 		{
-			return new PartialResult(componentView, model).Execute(viewContext, Services);
+			return new PartialViewResult(componentView, model).Execute(viewContext, Services);
 		}
 
 		public string Render<T>(ViewContext viewContext, Action<T> configurer = null)
@@ -29,7 +29,7 @@
 
 			if (configurer != null) configurer(instance);
 
-			PartialResult result = instance.Render();
+			PartialViewResult result = instance.Render();
 
 			return result.Execute(viewContext, Services, instance);
 		}
