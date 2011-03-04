@@ -21,6 +21,6 @@ namespace Castle.MonoRail.Primitives.Mvc
 
 	public abstract class ViewComponentProvider
 	{
-		public abstract ViewComponentMeta Create(Type type, ViewContext viewContext);
+		public abstract object Create(Type type, ViewContext viewContext);
 	}
 }

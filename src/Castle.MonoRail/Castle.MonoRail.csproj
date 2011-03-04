@@ -143,7 +143,6 @@
     <Compile Include="Primitives\Mvc\ControllerMeta.cs" />
     <Compile Include="Primitives\Mvc\ControllerProvider.cs" />
     <Compile Include="Mvc\IActionParameterBinder.cs" />
-    <Compile Include="Primitives\Mvc\ViewComponentMeta.cs" />
     <Compile Include="Primitives\Mvc\ViewComponentProvider.cs" />
     <Compile Include="ResourceOfT.cs" />
     <Compile Include="ResourceRelation.cs" />

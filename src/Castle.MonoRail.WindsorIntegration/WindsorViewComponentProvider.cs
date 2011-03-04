@@ -15,7 +15,7 @@
 	[PartCreationPolicy(CreationPolicy.Shared)]
 	public class WindsorViewComponentProvider : ViewComponentProvider
 	{
-		public override ViewComponentMeta Create(Type type, ViewContext viewContext)
+		public override object Create(Type type, ViewContext viewContext)
 		{
 			var accessor = viewContext.HttpContext.ApplicationInstance as IContainerAccessor;
 
@@ -25,9 +25,7 @@
 
 				if (!container.Kernel.HasComponent(type)) return null;
 
-				var component = container.Resolve(type, new Dictionary<string, object> {{"viewContext", viewContext}});
-
-				return new ViewComponentMeta(component);
+				return container.Resolve(type, new Dictionary<string, object> {{"viewContext", viewContext}});
 			}
 
 			return null;

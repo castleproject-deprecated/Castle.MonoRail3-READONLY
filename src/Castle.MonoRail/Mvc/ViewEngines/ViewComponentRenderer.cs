@@ -38,9 +38,9 @@
 		{
 			foreach (var componentProvider in ComponentProviders.OrderBy(l => l.Metadata.Order))
 			{
-				var meta = componentProvider.Value.Create(component, viewContext);
+				var viewComponent = componentProvider.Value.Create(component, viewContext);
 
-				if (meta != null) return meta.ComponentInstance;
+				if (viewComponent != null) return viewComponent;
 			}
 
 			throw new Exception("View Component could not be found.");

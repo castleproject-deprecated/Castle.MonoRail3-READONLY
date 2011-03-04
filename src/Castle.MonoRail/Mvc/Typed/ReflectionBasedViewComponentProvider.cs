@@ -26,11 +26,9 @@ namespace Castle.MonoRail.Mvc.Typed
 	[PartCreationPolicy(CreationPolicy.Shared)]
 	public class ReflectionBasedViewComponentProvider : ViewComponentProvider
 	{
-		public override ViewComponentMeta Create(Type type, ViewContext viewContext)
+		public override object Create(Type type, ViewContext viewContext)
 		{
-			var component = Activator.CreateInstance(type);
-
-			return new ViewComponentMeta(component);
+			return Activator.CreateInstance(type);
 		}
 	}
 }
