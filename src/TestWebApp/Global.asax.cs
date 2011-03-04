@@ -22,6 +22,7 @@ namespace TestWebApp
 	using Castle.MicroKernel.Registration;
 	using Castle.MonoRail.Mvc;
 	using Castle.Windsor;
+	using ViewComponents;
 
 	public class Global : HttpApplication, IContainerAccessor
 	{
@@ -35,6 +36,8 @@ namespace TestWebApp
 				Where(t => t.Name.EndsWith("Controller") && t.Name != "HomeController").
 				Configure(t => t.Named(t.Implementation.Name.Substring(0, t.Implementation.Name.Length - "Controller".Length).ToLowerInvariant()).
 					LifeStyle.Transient));
+
+			_container.Register(Component.For<IoCedComponent>());
 
 			RouteTable.Routes.Add(
 				new Route("{controller}/{action}/{id}",

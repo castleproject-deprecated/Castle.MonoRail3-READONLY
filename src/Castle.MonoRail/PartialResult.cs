@@ -22,6 +22,9 @@
 		{
 			ApplyConventions(viewComponent);
 
+			if (string.IsNullOrEmpty(PartialViewName))
+				throw new Exception("You should provide a partial view name for not typed view components");
+
 			var result = services.ViewEngines.ResolvePartialView(PartialViewName, ResolvePartialResolutionContext(viewContext, viewComponent));
 
 			if (result.Successful)

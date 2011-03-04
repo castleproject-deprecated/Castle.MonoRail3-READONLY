@@ -92,6 +92,7 @@
     <Content Include="Views\Home\_datacontainer.cshtml" />
     <Content Include="Views\Components\Foo\alternative.cshtml" />
     <Content Include="Views\Components\Bar\default.cshtml" />
+    <Content Include="Views\Components\IoCed\default.cshtml" />
     <None Include="Views\Home\index.cshtml" />
     <None Include="Views\Shared\default.cshtml" />
     <None Include="Views\Home\view.cshtml" />
@@ -113,6 +114,7 @@
     <Compile Include="Resources\IssueResource.cs" />
     <Compile Include="ViewComponents\BarComponent.cs" />
     <Compile Include="ViewComponents\FooComponent.cs" />
+    <Compile Include="ViewComponents\IoCedComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Castle.MonoRail.ViewEngines.Razor\Castle.MonoRail.ViewEngines.Razor.csproj">

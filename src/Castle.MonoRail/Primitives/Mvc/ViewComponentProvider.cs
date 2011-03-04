@@ -17,9 +17,10 @@
 namespace Castle.MonoRail.Primitives.Mvc
 {
 	using System;
+	using MonoRail.Mvc.ViewEngines;
 
 	public abstract class ViewComponentProvider
 	{
-		public abstract ViewComponentMeta Create(Type type);
+		public abstract ViewComponentMeta Create(Type type, ViewContext viewContext);
 	}
 }

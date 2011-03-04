@@ -25,11 +25,11 @@ namespace Castle.MonoRail.ViewEngines.Razor
 
 	public class RazorView : IView
 	{
-		private readonly ViewComponentExecutor viewComponentExecutor;
+		private readonly ViewComponentRenderer viewComponentRenderer;
 
-		public RazorView(IHostingBridge hostingBridge, string view, string layout, ViewComponentExecutor viewComponentExecutor)
+		public RazorView(IHostingBridge hostingBridge, string view, string layout, ViewComponentRenderer viewComponentRenderer)
 		{
-			this.viewComponentExecutor = viewComponentExecutor;
+			this.viewComponentRenderer = viewComponentRenderer;
 			ViewPath = view;
 			LayoutPath = layout;
 			HostingBridge = hostingBridge;
@@ -72,7 +72,7 @@ namespace Castle.MonoRail.ViewEngines.Razor
 			initPage.DataContainer = viewContext.ControllerContext.Data;
 			initPage.SetData(viewContext.ControllerContext.Data.MainModel ?? viewContext.ControllerContext.Data);
 			initPage.ViewContext = viewContext;
-			initPage.ViewComponentExecutor = viewComponentExecutor;
+			initPage.ViewComponentRenderer = viewComponentRenderer;
 			//initPage.InitHelpers();
 
 			var webPageContext = new WebPageContext(viewContext.HttpContext, (WebPageBase) initPage, initPage.GetData());

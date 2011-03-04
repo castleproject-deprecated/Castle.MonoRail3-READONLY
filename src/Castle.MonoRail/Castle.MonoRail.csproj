@@ -101,7 +101,7 @@
     <Compile Include="Mvc\ViewEngines\IViewComponent.cs" />
     <Compile Include="Mvc\ViewEngines\IViewEngine.cs" />
     <Compile Include="Mvc\ViewEngines\PartialResolutionContext.cs" />
-    <Compile Include="Mvc\ViewEngines\ViewComponentExecutor.cs" />
+    <Compile Include="Mvc\ViewEngines\ViewComponentRenderer.cs" />
     <Compile Include="Mvc\ViewEngines\ViewContext.cs" />
     <Compile Include="Mvc\ViewEngines\ViewEngineResult.cs" />
     <Compile Include="Mvc\ViewEngines\ViewResolutionContext.cs" />

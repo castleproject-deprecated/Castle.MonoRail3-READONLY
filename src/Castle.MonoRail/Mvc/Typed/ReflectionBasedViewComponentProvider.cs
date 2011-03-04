@@ -19,13 +19,14 @@ namespace Castle.MonoRail.Mvc.Typed
 	using System;
 	using System.ComponentModel.Composition;
 	using Primitives.Mvc;
+	using ViewEngines;
 
 	[Export(typeof(ViewComponentProvider))]
 	[ExportMetadata("Order", 10000)]
 	[PartCreationPolicy(CreationPolicy.Shared)]
 	public class ReflectionBasedViewComponentProvider : ViewComponentProvider
 	{
-		public override ViewComponentMeta Create(Type type)
+		public override ViewComponentMeta Create(Type type, ViewContext viewContext)
 		{
 			var component = Activator.CreateInstance(type);
 
