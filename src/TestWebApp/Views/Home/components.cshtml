@@ -12,6 +12,9 @@
         @ViewComponent("_datacontainer", "Some data")
 
         <h2>Typed With Data</h2>
-        @(ViewComponent<TestWebApp.ViewComponents.BarComponent>("Some data"))
+        @(ViewComponent<TestWebApp.ViewComponents.BarComponent>(vc => { 
+																vc.SomeProperty = "Another insightful and clever text here";
+																vc.Section = @<h2>Again, but bigger: @item.SomeProperty</h2>;
+	    }))
 	</div>
 </div>

@@ -1,0 +1,7 @@
+﻿@inherits Castle.MonoRail.ViewEngines.Razor.WebViewPage<TestWebApp.ViewComponents.BarComponent>
+			  
+<p style="color:Green"> @Model.SomeProperty</p>
+
+<p>Typed view component with placeholders.</p>
+
+@Model.Section(@Model)

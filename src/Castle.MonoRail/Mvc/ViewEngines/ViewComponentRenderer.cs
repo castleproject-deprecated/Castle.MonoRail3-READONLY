@@ -44,13 +44,17 @@
 			}
 		}
 
-		public string Render(Type component, ViewContext viewContext)
+		public string Render<T>(ViewContext viewContext, Action<T> configurer = null)
 		{
+			var component = typeof (T);
+
 			ViewResult result = null;
 
 			var viewEngines = Services.ViewEngines;
 
 			dynamic instance = ComponentProvider.Create(component).ComponentInstance;
+
+			if (configurer != null) configurer(instance);
 
 			result = instance.Render();
 

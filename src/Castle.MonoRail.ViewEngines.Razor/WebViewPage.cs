@@ -66,11 +66,11 @@ namespace Castle.MonoRail.ViewEngines.Razor
 
         public HtmlString ViewComponent<T>()
         {
-			return new HtmlString(Renderer.Render(typeof(T), ViewContext));
+			return new HtmlString(Renderer.Render<T>(ViewContext));
         }
-        public HtmlString ViewComponent<T>(object data)
+        public HtmlString ViewComponent<T>(Action<T> configurer)
         {
-            return new HtmlString("");
+			return new HtmlString(Renderer.Render(ViewContext, configurer));
         }
 	}
 
