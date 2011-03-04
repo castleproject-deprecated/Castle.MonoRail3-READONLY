@@ -28,9 +28,8 @@ namespace Castle.MonoRail.Mvc.Typed
 		public override ViewComponentMeta Create(Type type)
 		{
 			var component = Activator.CreateInstance(type);
-			var meta = new ViewComponentMeta(component);
 
-			return meta;
+			return new ViewComponentMeta(component);
 		}
 	}
 }

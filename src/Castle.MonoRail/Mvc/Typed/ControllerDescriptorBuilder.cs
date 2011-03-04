@@ -19,6 +19,7 @@ namespace Castle.MonoRail.Mvc.Typed
 	using System;
 	using System.ComponentModel.Composition;
 	using System.Reflection;
+	using Extensions;
 
 	[Export]
 	[PartCreationPolicy(CreationPolicy.Shared)]
@@ -27,9 +28,7 @@ namespace Castle.MonoRail.Mvc.Typed
 		//TODO: needs caching (per instance)
 		public ControllerDescriptor Build(Type controllerType)
 		{
-			string name = controllerType.Name;
-			
-			name = name.Substring(0, name.Length - "Controller".Length).ToLowerInvariant();
+			string name = controllerType.Name.RemoveSufix("Controller");
 
 			var controllerDesc = new ControllerDescriptor(controllerType, name, string.Empty);
 

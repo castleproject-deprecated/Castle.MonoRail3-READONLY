@@ -30,7 +30,7 @@ namespace Castle.MonoRail.ViewEngines.Razor
 
 		public ViewContext ViewContext { get; set; }
 
-		public ViewComponentRenderer Renderer { get; set; }
+		public ViewComponentExecutor ViewComponentExecutor { get; set; }
 
 		//On razor, the view is the parent of the layout.
 		protected override void ConfigurePage(WebPageBase parentPage)
@@ -56,21 +56,22 @@ namespace Castle.MonoRail.ViewEngines.Razor
 
         public HtmlString ViewComponent(string name)
         {
-			return new HtmlString(Renderer.Render(name, ViewContext, null));
+			return new HtmlString(ViewComponentExecutor.Render(name, ViewContext));
         }
 
         public HtmlString ViewComponent(string name, object model)
         {
-			return new HtmlString(Renderer.Render(name, ViewContext, model));
+			return new HtmlString(ViewComponentExecutor.Render(name, ViewContext, model));
         }
 
         public HtmlString ViewComponent<T>()
         {
-			return new HtmlString(Renderer.Render<T>(ViewContext));
+			return new HtmlString(ViewComponentExecutor.Render<T>(ViewContext));
         }
+
         public HtmlString ViewComponent<T>(Action<T> configurer)
         {
-			return new HtmlString(Renderer.Render(ViewContext, configurer));
+			return new HtmlString(ViewComponentExecutor.Render(ViewContext, configurer));
         }
 	}
 

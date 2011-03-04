@@ -46,13 +46,13 @@ namespace Castle.MonoRail.Mvc.ViewEngines
 			return new ViewEngineResult(failedResults.SelectMany(res => res.SearchedLocations));
 		}
 
-		public ViewEngineResult ResolveViewComponent(string viewName, ViewResolutionContext resolutionContext)
+		public ViewEngineResult ResolvePartialView(string partialName, PartialResolutionContext resolutionContext)
 		{
 			var failedResults = new List<ViewEngineResult>();
 
 			foreach (var viewEngine in ViewEngines)
 			{
-				var result = viewEngine.ResolveViewComponent(viewName, resolutionContext);
+				var result = viewEngine.ResolvePartialView(partialName, resolutionContext);
 
 				if (result.Successful)
 					return result;

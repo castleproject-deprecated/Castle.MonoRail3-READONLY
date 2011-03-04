@@ -6,11 +6,11 @@
     {
 		public string SomeProperty { get; set; }
 
-		public ViewResult Render()
+		public PartialResult Render()
 		{
 			SomeProperty = "Some insightful and clever text here";
 
-			return new ViewResult("Foo");
+			return new PartialResult("alternative");
 		}
     }
 }

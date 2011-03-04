@@ -36,6 +36,6 @@ namespace Castle.MonoRail.ViewEngines.Razor
 
 		ViewContext ViewContext { get; set; }
 
-		ViewComponentRenderer Renderer { get; set; }
+		ViewComponentExecutor ViewComponentExecutor { get; set; }
 	}
 }
